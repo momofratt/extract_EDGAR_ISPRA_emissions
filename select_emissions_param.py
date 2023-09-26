@@ -148,8 +148,8 @@ prov_geoframe = gpd.GeoDataFrame()  # select provinces
 for prov in provinces:
     new_prov = states_geoframe[(states_geoframe['name']==prov) & (states_geoframe['country']==country)] # read line from the GeoDataFrame that correspond to the selected province
     if type(new_prov['geometry'].to_list()[0]) == shapely.geometry.multipolygon.MultiPolygon: # if prov is a multipolygon (e.g. islands) uses only the largest polygon 
-        prov_poly = new_prov['geometry'].to_list()    
-        max_prov_poly = max(prov_poly[0], key=lambda a: a.area)
+        prov_poly = new_prov['geometry'].to_list()[0].geoms 
+        max_prov_poly = max(prov_poly, key=lambda a: a.area)
         new_prov['geometry'] = max_prov_poly
     
     # prov_geoframe = prov_geoframe.append(new_prov, ignore_index=True)
