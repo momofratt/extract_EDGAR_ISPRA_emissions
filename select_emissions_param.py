@@ -23,7 +23,7 @@ res_folder = './results/'  # name for the results folder
 #               (0,'Moselle'),(0,'Haute-Marne'),
 #               (0,'Ardennes'),(0,'Aube')]                      # list containing the names of the provinces in the admin1.geojson file and the number of the provinces in the ISPRA DBCampiIncrociati file
 # lat_stat, lon_stat = 45.7719, 2.9658                          # latitude of the station. It is used to plot a triangle on that point
-# stat_nm = 'Observatoire Perenne de l'Environnement'           # name for the plots
+# stat_nm = 'Observatoire Perenne de lt'           # name for the plots
 # country = 'France'                                            # country name in the admin1 geojson file so avoi selecting regions with same name from different countries.
 # IPR = False                                                   # wether to analyse or not ISPRA data (only for Italian provinces) 
 #################################################
@@ -31,41 +31,23 @@ res_folder = './results/'  # name for the results folder
 
 ###############################################
 # ############## PO' VALLEY ###############
-region = 'PO'                                                               # name for the datafiles
-region_full = "Po' Valley"                                                  # name for the plots
-prov_numname = [(3, 'Novara'),(12, 'Varese'),(13, 'Como'),
-                (15, 'Milano'),(16, 'Bergamo'),(17, 'Brescia'),
-                (18, 'Pavia'),(19, 'Cremona'),(20, 'Mantova'),
-                (97, 'Lecco'),(98, 'Lodi'), (103, 'Monza e Brianza'),
-                (23, 'Verona'),(24, 'Vicenza'),(26, 'Treviso'),
-                (27, 'Venezia'),(28, 'Padova'),(29, 'Rovigo'),
-                (33, 'Piacenza'),(34, 'Parma'),(35, "Reggio Emilia"),
-                (36, 'Modena'),(37, 'Bologna'),(38, 'Ferrara'),
-                (39, 'Ravenna'),(40, "Forlì-Cesena"),(99, 'Rimini')]       # list containing the names of the provinces in the admin1.geojson file and the number of the provinces in the ISPRA DBCampiIncrociati file
+region = 'TR'                                                               # name for the datafiles
+region_full = "Terni"                                                  # name for the plots
+prov_numname = [(55, 'Terni')]       # list containing the names of the provinces in the admin1.geojson file and the number of the provinces in the ISPRA DBCampiIncrociati file
 
 lat_stat, lon_stat = 44.19433, 10.70111                                    # latitude of the station. It is used to plot a triangle on that point
 country='Italy'                                                            # country name in the admin1 geojson file to avoid selecting regions with same name from different countries.
 stat_nm = 'Mt. Cimone'                                                     # name for the plots
 IPR = True                                                                 # wether to analyse or not ISPRA data (only for Italian provinces) 
+Italy = False # eval emi over whole italy (only EDGAR)
 
-# ############## EMILIA ROMAGNA ###############
-# region = 'ER' # suffix for ouput files
-# region_full = 'Emilia Romagna'
-# prov_numname = [(33, 'Piacenza'),(34, 'Parma'),(35, "Reggio Emilia'"),(36, 'Modena'),(37, 'Bologna'),(38, 'Ferrara'),(39, 'Ravenna'),(40, "Forlì-Cesena"),(99, 'Rimini')]
-#lat_stat, lon_stat = 44.19433, 10.70111
-#country='Italy'
-#stat_nm = 'Mt. Cimone'
-# IPR=True
 
-###############################################
-# ############## TOSCANA ###############
-# region = 'TOS' # suffix for ouput files
-# region_full = 'Toscana'
-# provinces = ['Grosseto', 'Livorno', 'Pisa', 'Massa-Carrara', 'Lucca', 'Pistoia', 'Prato', 'Firenze', 'Arezzo', 'Siena']
-#lat_stat, lon_stat = 44.19433, 10.70111
-#stat_nm = 'Mt. Cimone'
-#country='Italy'
-# IPR=True
+# prov_numname = [[0, 'Carbonia-Iglesias'], [0, 'Medio Campidano'], 
+#                  [0, 'Oristrano'], [0, 'Sassari'], [0, 'Olbia-Tempio'], [0, 'Nuoro'], 
+#                  [0, 'Ogliastra'], [0, 'Cagliari']]
+
+# prov_numname = [ [0, 'Trapani'], [0, 'Palermo'], [0, 'Messina'], [0, 'Enna'], 
+#             [0, 'Catania'], [0, 'Siracusa'], [0, 'Ragusa'], [0, 'Caltanissetta'], [0, 'Agrigento']]
 
 ###############################################
 # ############## PO' VALLEY extended ###############
@@ -75,7 +57,7 @@ IPR = True                                                                 # wet
 #                 (21,'Bozen'),(25,'Belluno'),(93,'Pordenone'), (30,'Udine'),
 #                 (3, 'Novara'),(12, 'Varese'),(13, 'Como'),(15, 'Milano'),(16, 'Bergamo'),(17, 'Brescia'),
 #                 (18, 'Pavia'),(19, 'Cremona'),(20, 'Mantova'),(97, 'Lecco'),(98, 'Lodi'), (103, 'Monza e Brianza'),
-#                 (23, 'Verona'),(24, 'Vicenza'),(26, 'Treviso'),(27, 'Venezia'),(28, 'Padova'),(29, 'Rovigo'),
+#                 (23, 'Verona'),(24, 'Vicenza'),(26, 'Treviso'),(28, 'Padova'),(29, 'Rovigo'),
 #                 (33, 'Piacenza'),(34, 'Parma'),(35, "Reggio Emilia"),(36, 'Modena'),(37, 'Bologna'),(38, 'Ferrara'),
 #                 (39, 'Ravenna'),(40, "Forlì-Cesena"),(99, 'Rimini')]
 # lat_stat, lon_stat = 44.19433, 10.70111
@@ -125,7 +107,13 @@ IPR = True                                                                 # wet
 
 # >>>>>>>>>>>>>>>>>>>>>>> DO NOT CHANGE ANYTHING FROM NOW ON <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< #
 
+states_geoframe = gpd.GeoDataFrame.from_file('admin1.geojson')        # read geojson file
 
+if Italy:
+    prov_numname=[]
+    for i, row in states_geoframe[states_geoframe['country']=='Italy'].iterrows():
+        prov_numname.append([0,row['name']])
+    
 d_lon = 0.1 # separation of grid points in deg
 d_lat = 0.1
 earth_rad = 6371 # [km]
@@ -148,9 +136,9 @@ prov_geoframe = gpd.GeoDataFrame()  # select provinces
 for prov in provinces:
     new_prov = states_geoframe[(states_geoframe['name']==prov) & (states_geoframe['country']==country)] # read line from the GeoDataFrame that correspond to the selected province
     if type(new_prov['geometry'].to_list()[0]) == shapely.geometry.multipolygon.MultiPolygon: # if prov is a multipolygon (e.g. islands) uses only the largest polygon 
-        prov_poly = new_prov['geometry'].to_list()[0].geoms 
+        prov_poly = new_prov['geometry'].to_list()[0].geoms
         max_prov_poly = max(prov_poly, key=lambda a: a.area)
-        new_prov['geometry'] = max_prov_poly
+        new_prov.loc[new_prov['name']==prov,'geometry'] = max_prov_poly
     
     # prov_geoframe = prov_geoframe.append(new_prov, ignore_index=True)
     prov_geoframe = pd.concat([prov_geoframe, new_prov],ignore_index=True)
@@ -158,8 +146,19 @@ for prov in provinces:
 
 # union of provinces and evaluation of external boundaries
 geoms = prov_geoframe['geometry'].tolist()
-intersection_iter = gpd.GeoDataFrame(gpd.GeoSeries([poly[0].union(poly[1]) for poly in  itertools.combinations(geoms, 2)]), columns=['geometry'])
-regione = intersection_iter.unary_union
+if len(geoms)>1:
+    intersection_iter = gpd.GeoDataFrame(gpd.GeoSeries([poly[0].union(poly[1]) for poly in itertools.combinations(geoms, 2)]), columns=['geometry'])
+    regione = intersection_iter.unary_union
+else:
+    regione=geoms[0]
+    
+
+if type(regione) == shapely.geometry.multipolygon.MultiPolygon: # if prov is a multipolygon (e.g. islands) uses only the largest polygon 
+    prov_poly = regione.geoms
+    max_prov_poly = max(prov_poly, key=lambda a: a.area)
+    regione = max_prov_poly
+    
+
 bound_coords = list(regione.exterior.coords)
 
 bound_coords_index = [net.lat_to_index(coord[1], coord[0]) for coord in bound_coords] # convert boundary coordinates to indexes
